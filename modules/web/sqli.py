@@ -91,7 +91,7 @@ def run_sqlmap(sqli_file, json_output):
 
 # Main function to run gau, filter URLs, and execute sqlmap
 def sqli_scan(target_domain):
-    output_dir = "results/sqli"
+    output_dir = "/mnt/d/flask-thesis/results/sqli"
     os.makedirs(output_dir, exist_ok=True)
 
     gau_file = os.path.join(output_dir, "fgau.txt")  # Output from gau

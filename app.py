@@ -69,18 +69,27 @@ def run_scans(target_domain, phases):
 
     # Execute selected phases
     for phase in phases:
-        execute_tasks(phases_dict[phase], f"{phase}: {phases_dict[phase][0][0]}")
+        execute_tasks(phases_dict[phase])
 
-# Function to execute tasks concurrently
+
 def execute_tasks(tasks):
+    # Ensure 'tasks' is a list of tuples
+    if not isinstance(tasks, list):
+        raise TypeError("Expected a list of tasks")
+    
     with ThreadPoolExecutor() as executor:
-        futures_to_task = {executor.submit(task[1], *task[2]): task[0]}
+        # Create a dictionary of futures to task names
+        futures_to_task = {executor.submit(task[1], *task[2]): task[0] for task in tasks}
+        
         for future in as_completed(futures_to_task):
             task_name = futures_to_task[future]
             try:
+                # Process each task and handle exceptions
                 future.result()
             except Exception as exc:
-                print(f"'{task_name}' generated an exception: {exc}")
+                print(f"Task '{task_name}' generated an exception: {exc}")
+
+
 
 # Route for the main dashboard
 @app.route("/", methods=["GET", "POST"])
