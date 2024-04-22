@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Scan Results</title>
+</head>
+<body>
+    <h2>Scan Results for {{ domain }}</h2>
+    <ul>
+    {% for task, status in results.items() %}
+        <li>{{ task }}: {{ status }}</li>
+    {% endfor %}
+    </ul>
+    <br>
+    <a href="{{ url_for('index') }}">Run Again</a>
+</body>
+</html>

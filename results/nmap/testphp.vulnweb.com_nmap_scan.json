@@ -1,0 +1,10 @@
+{
+    "host": "testphp.vulnweb.com",
+    "open_ports": [
+        {
+            "port": "80",
+            "protocol": "tcp",
+            "service": "http"
+        }
+    ]
+}

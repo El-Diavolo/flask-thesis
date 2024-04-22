@@ -1,0 +1,12 @@
+{
+    "online": {
+        "testphp.vulnweb.com": {
+            "status_code": 200
+        }
+    },
+    "offline": {
+        "www.testphp.vulnweb.com": {
+            "error": "[Errno -2] Name or service not known"
+        }
+    }
+}
