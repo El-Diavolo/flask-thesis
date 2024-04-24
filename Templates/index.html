@@ -71,6 +71,7 @@
         <a href="#" onclick="showContent('sqli')">SQL Injection</a>
         <a href="#" onclick="showContent('techstack')">Tech Stack</a>
         <a href="#" onclick="showContent('xss')">XSS</a>
+        <a href="#" onclick="showContent('subdomains')">Subdomains</a>
     </div>
 
     <!-- Main Content Area -->
@@ -98,11 +99,38 @@
             {% for subdir, content_list in scan_results.items() %}
                 <div id="{{ subdir }}-content" class="tab-content" style="display: none;">
                     <h2>{{ subdir | capitalize }}</h2>
-                    {% for item in content_list %}
-                        <pre>{{ item }}</pre>  <!-- Display formatted content -->
-                    {% endfor %}
+        
+                    {% if content_list %}
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <!-- Ensure content_list is not empty before accessing keys -->
+                                    {% if content_list[0] is not none %}
+                                        {% for header in content_list[0].keys() %}
+                                            <th>{{ header }}</th>
+                                        {% endfor %}
+                                    {% endif %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in content_list %}
+                                    <tr>
+                                        {% for key, value in item.items() %}
+                                            <td>{{ value }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>No data available.</p>
+                    {% endif %}
                 </div>
             {% endfor %}
+        </div>
+        
+        
+
         </div>
     </div>
 
