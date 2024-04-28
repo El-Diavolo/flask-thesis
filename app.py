@@ -8,7 +8,19 @@ import json
 app = Flask(__name__)
 
 # Define subdirectories for scan results
-subdirectories = ["directories", "hosts", "lfi", "nmap", "shodan", "sqli", "subdomains", "techstack", "xss", "katana"]
+subdirectories = [
+    "directories",
+    "hosts",
+    "lfi",
+    "nmap",
+    "shodan",
+    "sqli",
+    "subdomains",
+    "techstack",
+    "xss",
+    "katana",
+]
+
 
 # Route to delete data by running 'delete.py'
 @app.route("/delete-data", methods=["POST"])
@@ -19,8 +31,9 @@ def delete_data():
         subprocess.run(["python3", delete_script_path], check=True)
     return redirect(url_for("index"))  # Redirect back to the main dashboard
 
+
 # Function to fetch scan results and prepare them for rendering
-def flatten_json(y, parent_key='', separator='_'):
+def flatten_json(y, parent_key="", separator="_"):
     """
     Recursively flattens nested JSON/dictionaries.
     """
@@ -32,7 +45,9 @@ def flatten_json(y, parent_key='', separator='_'):
         elif isinstance(v, list):
             for i, item in enumerate(v):
                 if isinstance(item, dict):
-                    items.extend(flatten_json(item, f"{new_key}_{i}", separator).items())
+                    items.extend(
+                        flatten_json(item, f"{new_key}_{i}", separator).items()
+                    )
                 else:
                     items.append((f"{new_key}_{i}", item))
         else:
@@ -40,8 +55,74 @@ def flatten_json(y, parent_key='', separator='_'):
     return dict(items)
 
 
+def process_techstack_results(techstack_results):
+    formatted_data = []
+    for host, info in techstack_results.items():
+        entry = {
+            "Host": host,
+            "Operating System": "",
+            "OS Version": "",
+            "Web Server": "",
+            "WB Version": "",
+            "Editor": "",
+            "Editor Version": "",
+            "Language": "",
+            "Language Version": "",
+        }
+        if "Operating systems" in info:
+            os_info = (
+                info["Operating systems"][0]
+                if isinstance(info["Operating systems"], list)
+                else info["Operating systems"]
+            )
+            entry["Operating System"] = os_info.get("detail", "")
+            entry["OS Version"] = os_info.get("version", "")
+        if "Web servers" in info:
+            ws_info = (
+                info["Web servers"][0]
+                if isinstance(info["Web servers"], list)
+                else info["Web servers"]
+            )
+            entry["Web Server"] = ws_info.get("detail", "")
+            entry["WB Version"] = ws_info.get("version", "")
+        if "Editors" in info:
+            editor_info = (
+                info["Editors"][0]
+                if isinstance(info["Editors"], list)
+                else info["Editors"]
+            )
+            entry["Editor"] = editor_info.get("detail", "")
+            entry["Editor Version"] = editor_info.get("version", "")
+        if "Programming languages" in info:
+            lang_info = (
+                info["Programming languages"][0]
+                if isinstance(info["Programming languages"], list)
+                else info["Programming languages"]
+            )
+            entry["Language"] = lang_info.get("detail", "")
+            entry["Language Version"] = lang_info.get("version", "")
+
+        formatted_data.append(entry)
+    return formatted_data
+
+
 def read_results():
     raw_results = read_all_json_results(subdirectories)  # Get the raw results
+
+    techstack_results = raw_results["techstack"]
+    # flatten the techstack results based on the headers in the headingMappings
+    print("Techstack results:", techstack_results)
+
+    flattened_techstack_results = process_techstack_results(techstack_results)
+    print()
+    print()
+    print("Processed techstack results:", flattened_techstack_results)
+    print()
+    print()
+    raw_results["techstack"] = flattened_techstack_results
+
+    return raw_results
+
     refined_results = {}
 
     for subdir, content_dict in raw_results.items():
@@ -61,14 +142,10 @@ def read_results():
                 flattened_results.append({key: value})
 
         refined_results[subdir] = flattened_results
-    
+
     print("Refined results:", refined_results)  # Debugging output
-    
+
     return refined_results
-
-
-
-
 
 
 # Function to run scans based on selected phases
@@ -86,6 +163,7 @@ def run_scans(target_domain, phases):
     )
     from modules.network import scan_common_ports
     from dotenv import load_dotenv
+
     load_dotenv()
     SHODAN_API_TOKEN = os.getenv("SHODAN_API_TOKEN")
 
@@ -93,18 +171,42 @@ def run_scans(target_domain, phases):
     Phase_1 = [
         ("Scan Common Ports", scan_common_ports, (target_domain,)),
         ("Find Subdomains", find_subdomains, (target_domain,)),
-        ("Shodan Search", shodan_search, (SHODAN_API_TOKEN,target_domain,))
+        (
+            "Shodan Search",
+            shodan_search,
+            (
+                SHODAN_API_TOKEN,
+                target_domain,
+            ),
+        ),
     ]
     Phase_2 = [
         ("Run HTTPx", run_httpx, ("results/subdomains",)),
         ("katana", run_crawler, (target_domain,)),
     ]
     Phase_3 = [
-        ("Read Subdomains and Run FFUF", read_subdomains_and_run_ffuf, (target_domain, "results/hosts", "test/testwordlist.txt", "results/directories")),
-        ("Run Tech Stack Detection", run_tech_stack_detection, ("results/hosts", "results/techstack")),
+        (
+            "Read Subdomains and Run FFUF",
+            read_subdomains_and_run_ffuf,
+            (
+                target_domain,
+                "results/hosts",
+                "test/testwordlist.txt",
+                "results/directories",
+            ),
+        ),
+        (
+            "Run Tech Stack Detection",
+            run_tech_stack_detection,
+            ("results/hosts", "results/techstack"),
+        ),
     ]
     Phase_4 = [
-        ("Run LFI Scan", lfi_scan, ("results/katana", "results/lfi", "/opt/smalllfi.txt")),
+        (
+            "Run LFI Scan",
+            lfi_scan,
+            ("results/katana", "results/lfi", "/opt/smalllfi.txt"),
+        ),
     ]
     Phase_5 = [("Run XSS Scan", run_xss, ())]
     Phase_6 = [("Run SQLI Scan", sqli_scan, (target_domain,))]
@@ -131,7 +233,9 @@ def execute_tasks(tasks):
 
     with ThreadPoolExecutor() as executor:
         # Create a dictionary of futures to task names
-        futures_to_task = {executor.submit(task[1], *task[2]): task[0] for task in tasks}
+        futures_to_task = {
+            executor.submit(task[1], *task[2]): task[0] for task in tasks
+        }
 
         for future in as_completed(futures_to_task):
             task_name = futures_to_task[future]
@@ -140,6 +244,28 @@ def execute_tasks(tasks):
                 future.result()
             except Exception as exc:
                 print(f"Task '{task_name}' generated an exception: {exc}")
+
+
+headingMappings = {
+    "hosts": ["Status Code", "Error"],
+    "lfi": ["URL", "Status Code", "Payload"],
+    "nmap": ["Host", "Open Ports", "Protocol", "Service"],
+    "shodan": ["IP Address", "Port", "Organization", "Operating System"],
+    "sqli": ["URL", "Payload"],
+    "techstack": [
+        "Host",
+        "Operating System",
+        "OS Version",
+        "Web Server",
+        "WB Version",
+        "Editor",
+        "Editor Version",
+        "Language",
+        "Language Version",
+    ],
+    "xss": ["URL", "Payload"],
+    "subdomains": ["Subdomain"],
+}
 
 
 # Route for the main dashboard
@@ -157,24 +283,28 @@ def index():
         # Refresh results after executing scans
         scan_results = read_results()
 
-    return render_template("index.html", scan_results=scan_results)
+    print("Scan results:", scan_results)
+
+    return render_template(
+        "index.html", scan_results=scan_results, headings=headingMappings
+    )
 
 
 # Route to list JSON files
-@app.route('/json-files', methods=['GET'])
+@app.route("/json-files", methods=["GET"])
 def list_json_files():
-    files = [f for f in os.listdir('.') if f.endswith('.json',"txt")]
+    files = [f for f in os.listdir(".") if f.endswith(".json", "txt")]
     return jsonify(files=files)
 
 
 # Route to get a specific JSON file
-@app.route('/json-files/<filename>', methods=['GET'])
+@app.route("/json-files/<filename>", methods=["GET"])
 def get_json_file(filename):
-    if not filename.endswith('.json'):
-        filename += '.json'
+    if not filename.endswith(".json"):
+        filename += ".json"
 
     if os.path.exists(filename):
-        with open(filename, 'r') as file:
+        with open(filename, "r") as file:
             data = json.load(file)
         return jsonify(data)
     else:
