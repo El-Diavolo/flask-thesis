@@ -1,15 +1,15 @@
 {
     "testphp.vulnweb.com": {
-        "Web servers": [
-            {
-                "detail": "Nginx",
-                "version": "1.19.0"
-            }
-        ],
         "Operating systems": [
             {
                 "detail": "Ubuntu",
                 "version": "nil"
+            }
+        ],
+        "Web servers": [
+            {
+                "detail": "Nginx",
+                "version": "1.19.0"
             }
         ],
         "Editors": [

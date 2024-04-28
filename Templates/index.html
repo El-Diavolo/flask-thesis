@@ -47,7 +47,7 @@
             right: 0;
             padding: 10px;
             cursor: pointer;
-            color: #fff;
+            color: white;
         }
 
         pre {
@@ -55,7 +55,7 @@
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ddd;
-            white-space: pre-wrap;  /* Makes JSON readable */
+            white-space: pre-wrap;
         }
     </style>
 </head>
@@ -78,12 +78,22 @@
     <div id="main-content">
         <h1>Scan Results Dashboard</h1>
 
+        <!-- "Delete Data" Button -->
+        <form method="post" action="/delete-data" style="float: right;">
+            <button type="submit" class="btn btn-danger">Delete Data</button>
+        </form>
+
         <!-- Form to Run Scans -->
         <form method="post">
             <label for="target_domain">Enter Target Domain:</label>
             <input type="text" id="target_domain" name="target_domain" required>
 
             <h3>Select Phases to Run:</h3>
+            
+            <!-- "Select All" checkbox -->
+            <input type="checkbox" id="select_all" onclick="toggleAll(this)"> Select All<br>
+
+            <!-- Individual phase checkboxes -->
             <input type="checkbox" name="phases" value="Phase 1"> Phase 1: Initial Tasks<br>
             <input type="checkbox" name="phases" value="Phase 2"> Phase 2: HTTPx and Crawler<br>
             <input type="checkbox" name="phases" value="Phase 3"> Phase 3: Additional Tasks<br>
@@ -99,12 +109,12 @@
             {% for subdir, content_list in scan_results.items() %}
                 <div id="{{ subdir }}-content" class="tab-content" style="display: none;">
                     <h2>{{ subdir | capitalize }}</h2>
-        
+
                     {% if content_list %}
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <!-- Ensure content_list is not empty before accessing keys -->
+                                    <!-- Check if content_list has at least one element -->
                                     {% if content_list[0] is not none %}
                                         {% for header in content_list[0].keys() %}
                                             <th>{{ header }}</th>
@@ -128,13 +138,9 @@
                 </div>
             {% endfor %}
         </div>
-        
-        
-
-        </div>
     </div>
 
-    <!-- JavaScript for Sidebar and Content Control -->
+    <!-- JavaScript to Control Sidebar and Checkboxes -->
     <script>
         function closeSidebar() {
             document.getElementById('sidebar').style.width = '0';
@@ -151,6 +157,14 @@
             if (selectedContent) {
                 selectedContent.style.display = 'block';
             }
+        }
+
+        function toggleAll(source) {
+            // Toggle all phase checkboxes based on "Select All" state
+            var checkboxes = document.querySelectorAll("input[name='phases']");
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = source.checked;
+            });
         }
     </script>
 </body>

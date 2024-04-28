@@ -1,5 +1,6 @@
 import os
-from flask import Flask, request, render_template, jsonify
+import subprocess
+from flask import Flask, request, render_template, jsonify, redirect, url_for
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from read_json import read_all_json_results
 import json
@@ -8,6 +9,15 @@ app = Flask(__name__)
 
 # Define subdirectories for scan results
 subdirectories = ["directories", "hosts", "lfi", "nmap", "shodan", "sqli", "subdomains", "techstack", "xss", "katana"]
+
+# Route to delete data by running 'delete.py'
+@app.route("/delete-data", methods=["POST"])
+def delete_data():
+    # Execute the delete.py script
+    delete_script_path = "delete.py"
+    if os.path.exists(delete_script_path):
+        subprocess.run(["python3", delete_script_path], check=True)
+    return redirect(url_for("index"))  # Redirect back to the main dashboard
 
 # Function to fetch scan results and prepare them for rendering
 def flatten_json(y, parent_key='', separator='_'):
@@ -75,11 +85,15 @@ def run_scans(target_domain, phases):
         sqli_scan,
     )
     from modules.network import scan_common_ports
+    from dotenv import load_dotenv
+    load_dotenv()
+    SHODAN_API_TOKEN = os.getenv("SHODAN_API_TOKEN")
 
     # Define task phases
     Phase_1 = [
         ("Scan Common Ports", scan_common_ports, (target_domain,)),
         ("Find Subdomains", find_subdomains, (target_domain,)),
+        ("Shodan Search", shodan_search, (SHODAN_API_TOKEN,target_domain,))
     ]
     Phase_2 = [
         ("Run HTTPx", run_httpx, ("results/subdomains",)),
