@@ -130,22 +130,22 @@
           style="display: none">
           <h2>{{ subdir | capitalize }}</h2>
 
-          {% if content_list %}
+          {% if content_list %} {{ content_list }}
           <table class="table table-striped">
             <thead>
               <tr>
                 <!-- Check if content_list has at least one element -->
-                {% if content_list[0] is not none %} {% for header in
-                content_list[0].keys() %}
+                {% if headings is not none %} {% for header in headings[subdir]
+                %}
                 <th>{{ header }}</th>
                 {% endfor %} {% endif %}
               </tr>
             </thead>
             <tbody>
-              {% for item in content_list %}
+              {% for content in content_list %}
               <tr>
-                {% for key, value in item.items() %}
-                <td>{{ value }}</td>
+                {% for item in content %}
+                <td>{{ content[item] }}</td>
                 {% endfor %}
               </tr>
               {% endfor %}
