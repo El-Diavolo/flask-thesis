@@ -1,190 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
+<head>
+    <meta charset="UTF-8">
     <title>Scan Results Dashboard</title>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-    <!-- CSS for Sidebar and Main Content -->
     <style>
-      #sidebar {
-        width: 250px;
-        position: fixed;
-        top: 0;
-        left: 0;
-        background-color: #111;
-        padding-top: 20px;
-        height: 100%;
-        z-index: 100;
-        transition: 0.3s;
-      }
+        #sidebar {
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            padding-top: 20px;
+            height: 100%;
+            z-index: 100;
+            transition: 0.3s;
+        }
 
-      #sidebar a {
-        padding: 10px 15px;
-        text-decoration: none;
-        font-size: 18px;
-        color: #ccc;
-        display: block;
-        transition: 0.3s;
-      }
+        #sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #ccc;
+            display: block;
+            transition: 0.3s;
+        }
 
-      #sidebar a:hover {
-        background-color: #575757;
-        color: white;
-      }
+        #sidebar a:hover {
+            background-color: #575757;
+            color: white;
+        }
 
-      #main-content {
-        margin-left: 250px;
-        padding: 15px;
-        transition: margin-left 0.3s;
-      }
+        #main-content {
+            margin-left: 250px;
+            padding: 15px;
+            transition: margin-left 0.3s;
+        }
 
-      #close-sidebar {
-        position: absolute;
-        top: 0;
-        right: 0;
-        padding: 10px;
-        cursor: pointer;
-        color: white;
-      }
+        #close-sidebar {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 10px;
+            cursor: pointer;
+            color: #fff;
+        }
 
+        #sidebar-closed {
+            display: none;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 101;
+            cursor: pointer;
+            color: #fff;
+            background-color: #000;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            white-space: pre-wrap;
+        }
+        td {
+        overflow-wrap: anywhere;
+      }
       tbody, thead {
         max-width: 100vw;
       }
-
-      td {
-        overflow-wrap: anywhere;
-      }
-
-      pre {
-        background-color: #f5f5f5;
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #ddd;
-        white-space: pre-wrap;
-      }
     </style>
-  </head>
-  <body>
-    <!-- Sidebar for Navigation -->
+</head>
+<body>
     <div id="sidebar">
-      <span id="close-sidebar" onclick="closeSidebar()">HIDE</span>
-      <a href="#" onclick="showContent('directories')">Directories</a>
-      <a href="#" onclick="showContent('hosts')">Hosts</a>
-      <a href="#" onclick="showContent('lfi')">LFI</a>
-      <a href="#" onclick="showContent('nmap')">Nmap</a>
-      <a href="#" onclick="showContent('shodan')">Shodan</a>
-      <a href="#" onclick="showContent('sqli')">SQL Injection</a>
-      <a href="#" onclick="showContent('techstack')">Tech Stack</a>
-      <a href="#" onclick="showContent('xss')">XSS</a>
-      <a href="#" onclick="showContent('subdomains')">Subdomains</a>
+        <span id="close-sidebar" onclick="closeSidebar()">HIDE</span>
+        <span id="open-sidebar" onclick="openSidebar()">SHOW</span>
+        <a href="#" onclick="showContent('directories')">Directories</a>
+        <a href="#" onclick="showContent('hosts')">Hosts</a>
+        <a href="#" onclick="showContent('lfi')">LFI</a>
+        <a href="#" onclick="showContent('nmap')">Nmap</a>
+        <a href="#" onclick="showContent('shodan')">Shodan</a>
+        <a href="#" onclick="showContent('sqli')">SQL Injection</a>
+        <a href="#" onclick="showContent('techstack')">Tech Stack</a>
+        <a href="#" onclick="showContent('xss')">XSS</a>
+        <a href="#" onclick="showContent('subdomains')">Subdomains</a>
     </div>
 
-    <!-- Main Content Area -->
     <div id="main-content">
-      <h1>Scan Results Dashboard</h1>
-
-      <!-- "Delete Data" Button -->
-      <form method="post" action="/delete-data" style="float: right">
-        <button type="submit" class="btn btn-danger">Delete Data</button>
-      </form>
-
-      <!-- Form to Run Scans -->
-      <form method="post">
-        <label for="target_domain">Enter Target Domain:</label>
-        <input type="text" id="target_domain" name="target_domain" required />
-
-        <h3>Select Phases to Run:</h3>
-
-        <!-- "Select All" checkbox -->
-        <input type="checkbox" id="select_all" onclick="toggleAll(this)" />
-        Select All<br />
-
-        <!-- Individual phase checkboxes -->
-        <input type="checkbox" name="phases" value="Phase 1" /> Phase 1: Initial
-        Tasks<br />
-        <input type="checkbox" name="phases" value="Phase 2" /> Phase 2: HTTPx
-        and Crawler<br />
-        <input type="checkbox" name="phases" value="Phase 3" /> Phase 3:
-        Additional Tasks<br />
-        <input type="checkbox" name="phases" value="Phase 4" /> Phase 4: LFI
-        Tests<br />
-        <input type="checkbox" name="phases" value="Phase 5" /> Phase 5: XSS
-        Tests<br />
-        <input type="checkbox" name="phases" value="Phase 6" /> Phase 6: SQLI
-        Tests<br />
-
-        <button type="submit" class="btn btn-primary">Run Scans</button>
-      </form>
-
-      <!-- Display the Scan Results -->
-      <div id="results">
-        {% for subdir, content_list in scan_results.items() %}
-        <div
-          id="{{ subdir }}-content"
-          class="tab-content"
-          style="display: none">
-          <h2>{{ subdir | capitalize }}</h2>
-
-          {% if content_list %} {{ content_list }}
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <!-- Check if content_list has at least one element -->
-                {% if headings is not none %} {% for header in headings[subdir]
-                %}
-                <th>{{ header }}</th>
-                {% endfor %} {% endif %}
-              </tr>
-            </thead>
-            <tbody>
-              {% for content in content_list %}
-              <tr>
-                {% for item in content %}
-                <td>{{ content[item] }}</td>
-                {% endfor %}
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-          {% else %}
-          <p>No data available.</p>
-          {% endif %}
+        <h1>Scan Results Dashboard</h1>
+        <form method="post" action="/delete-data" style="float: right;">
+            <button type="submit" class="btn btn-danger">Delete Data</button>
+        </form>
+        <form method="post">
+            <label for="target_domain">Enter Target Domain:</label>
+            <input type="text" id="target_domain" name="target_domain" required>
+            <h3>Select Phases to Run:</h3>
+            <input type="checkbox" id="select_all" onclick="toggleAll(this)"> Select All<br>
+            <input type="checkbox" name="phases" value="Phase 1"> Phase 1: Initial Tasks<br>
+            <input type="checkbox" name="phases" value="Phase 2"> Phase 2: HTTPx and Crawler<br>
+            <input type="checkbox" name="phases" value="Phase 3"> Phase 3: Additional Tasks<br>
+            <input type="checkbox" name="phases" value="Phase 4"> Phase 4: LFI Tests<br>
+            <input type="checkbox" name="phases" value="Phase 5"> Phase 5: XSS Tests<br>
+            <input type="checkbox" name="phases" value="Phase 6"> Phase 6: SQLI Tests<br>
+            <button type="submit" class="btn btn-primary">Run Scans</button>
+        </form>
+        <div id="results">
+            {% for subdir, content_list in scan_results.items() %}
+            <div id="{{ subdir }}-content" class="tab-content" style="display: none;">
+                <h2>{{ subdir | capitalize }}</h2>
+                {% if content_list %}
+                <div class="table-responsive"> <!-- Responsive table wrapper -->
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                {% for header in content_list[0].keys() %}
+                                <th>{{ header }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in content_list %}
+                            <tr>
+                                {% for key, value in item.items() %}
+                                <td>{{ value }}</td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p>No data available.</p>
+                {% endif %}
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-      </div>
     </div>
-
-    <!-- JavaScript to Control Sidebar and Checkboxes -->
     <script>
-      function closeSidebar() {
-        document.getElementById("sidebar").style.width = "0"
-        document.getElementById("main-content").style.marginLeft = "0"
-      }
-
-      function showContent(subdir) {
-        var contents = document.querySelectorAll(".tab-content")
-        contents.forEach(function (content) {
-          content.style.display = "none"
-        })
-
-        var selectedContent = document.getElementById(subdir + "-content")
-        if (selectedContent) {
-          selectedContent.style.display = "block"
+        function closeSidebar() {
+            document.getElementById("sidebar").style.width = "0";
+            document.getElementById("main-content").style.marginLeft = "0";
         }
-      }
 
-      function toggleAll(source) {
-        // Toggle all phase checkboxes based on "Select All" state
-        var checkboxes = document.querySelectorAll("input[name='phases']")
-        checkboxes.forEach(function (checkbox) {
-          checkbox.checked = source.checked
-        })
-      }
+        function openSidebar() {
+            document.getElementById("sidebar").style.width = "250px";
+            document.getElementById("main-content").style.marginLeft = "250px";
+        }
+
+        function showContent(subdir) {
+            var contents = document.querySelectorAll(".tab-content");
+            contents.forEach(function(content) {
+                content.style.display = "none";
+            });
+
+            var selectedContent = document.getElementById(subdir + "-content");
+            if (selectedContent) {
+                selectedContent.style.display = "block";
+            }
+        }
+
+        function toggleAll(source) {
+            var checkboxes = document.querySelectorAll("input[name='phases']");
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = source.checked;
+            });
+        }
     </script>
-  </body>
+</body>
 </html>

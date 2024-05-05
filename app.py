@@ -54,6 +54,56 @@ def flatten_json(y, parent_key="", separator="_"):
             items.append((new_key, v))
     return dict(items)
 
+def process_subdomains_results(subdomains):
+    formatted_data = []
+    # Ensure subdomains is a list
+    if isinstance(subdomains, list):
+        for subdomain in subdomains:
+            # Each subdomain is added to the list as a dictionary with key "Subdomain"
+            formatted_data.append({"Subdomain": subdomain})
+    return formatted_data
+
+def process_hosts_results(hosts_data):
+    formatted_data = []
+    if 'online' in hosts_data:
+        for host, details in hosts_data['online'].items():
+            # Each online host entry contains the host and its status code
+            formatted_data.append({
+                "Host": host,
+                "Status Code": details.get('status_code', 'N/A'),
+                "Error": ""  # No error message for online hosts
+            })
+
+    if 'offline' in hosts_data:
+        for host, details in hosts_data['offline'].items():
+            # Each offline host entry contains the host and its error message
+            formatted_data.append({
+                "Host": host,
+                "Status Code": "",  # No status code for offline hosts
+                "Error": details.get('error', 'N/A')
+            })
+
+    return formatted_data
+
+
+def process_nmap_results(nmap_results):
+    formatted_data = []
+    # Check if 'nmap_results' is a dictionary and contains necessary data
+    if isinstance(nmap_results, dict) and 'host' in nmap_results and 'open_ports' in nmap_results:
+        host = nmap_results.get('host', 'Unknown')  # Fallback to 'Unknown' if no host key
+        open_ports = nmap_results.get('open_ports', [])  # Fallback to an empty list if no open_ports key
+
+        for port_info in open_ports:
+            if isinstance(port_info, dict):
+                entry = {
+                    "Host": host,
+                    "Open Ports": port_info.get('port', 'N/A'),
+                    "Protocol": port_info.get('protocol', 'N/A'),
+                    "Service": port_info.get('service', 'N/A')
+                }
+                formatted_data.append(entry)
+    return formatted_data
+
 
 def process_techstack_results(techstack_results):
     formatted_data = []
@@ -110,16 +160,27 @@ def read_results():
     raw_results = read_all_json_results(subdirectories)  # Get the raw results
 
     techstack_results = raw_results["techstack"]
+    nmap_results = raw_results["nmap"]
+    subdomain_results = raw_results["subdomains"]
+    hosts_results = raw_results["hosts"]
     # flatten the techstack results based on the headers in the headingMappings
     print("Techstack results:", techstack_results)
 
     flattened_techstack_results = process_techstack_results(techstack_results)
+    flattened_nmap_results = process_nmap_results(nmap_results)
+    flattened_subdomains_results = process_subdomains_results(subdomain_results)
+    flattened_hosts_results = process_hosts_results(hosts_results)
     print()
     print()
     print("Processed techstack results:", flattened_techstack_results)
-    print()
+    print("Proccessed Nmap results:", flattened_nmap_results)
+    print("Proccessed Subdomains results:", flattened_subdomains_results)
     print()
     raw_results["techstack"] = flattened_techstack_results
+    raw_results["nmap"] = flattened_nmap_results
+    raw_results["subdomains"] = flattened_subdomains_results
+    raw_results["hosts"] = flattened_hosts_results
+    
 
     return raw_results
 
@@ -247,7 +308,7 @@ def execute_tasks(tasks):
 
 
 headingMappings = {
-    "hosts": ["Status Code", "Error"],
+    "hosts": ["Domain", "Status Code"],
     "lfi": ["URL", "Status Code", "Payload"],
     "nmap": ["Host", "Open Ports", "Protocol", "Service"],
     "shodan": ["IP Address", "Port", "Organization", "Operating System"],

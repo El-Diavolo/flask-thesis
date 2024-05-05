@@ -81,7 +81,7 @@ def run_ffuf(lfi_file, payloads_file):
 
         try:
             # Adjust the timeout based on typical response time expectations
-            stdout, stderr = process.communicate(timeout=180)  # Timeout set to 60 seconds
+            stdout, stderr = process.communicate(timeout=40)  # Timeout set to 60 seconds
 
             for line in stdout.splitlines():
                 cleaned_line = clean_ansi_sequences(line)
