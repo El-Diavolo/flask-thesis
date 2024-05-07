@@ -7,7 +7,7 @@ def setup_environment(output_dir):
 def run_katana_scan(target_domain, output_dir):
     url = f"http://{target_domain}"
     output_file_path = os.path.join(output_dir, "katana_results.txt")
-    command = ["katana", "-u", url, "-output", output_file_path]
+    command = ["katana", "-u", url, "-passive","-output", output_file_path, "-d" ,"10"]
 
     try:
         subprocess.run(command, check=True)

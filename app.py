@@ -104,6 +104,48 @@ def process_nmap_results(nmap_results):
                 formatted_data.append(entry)
     return formatted_data
 
+# Example of processing results with added safety checks
+def process_directory_results(directory_results):
+    formatted_data = []
+    for host, entries in directory_results.items():
+        if entries:  # Ensure there are entries to process
+            for entry in entries:
+                if isinstance(entry, dict):  # Ensure each entry is a dictionary
+                    formatted_entry = {
+                        "URL": entry.get("url", "N/A"),
+                        "Status": entry.get("status", "N/A"),
+                        "Redirect Location": entry.get("redirectlocation", "N/A"),
+                        "FUZZ": entry.get("FUZZ", "N/A")
+                    }
+                    formatted_data.append(formatted_entry)
+                else:
+                    print("Error: Entry is not a dictionary")  # Log unexpected data types
+        else:
+            print("Notice: No entries found for", host)  # Log empty entries
+
+    return formatted_data
+
+
+def process_sqli_results(vulnerabilities_results):
+    formatted_data = []
+    # Check if 'vulnerabilities_results' is a list of dictionaries
+    if isinstance(vulnerabilities_results, list):
+        for result in vulnerabilities_results:
+            if 'url' in result and isinstance(result.get('vulnerabilities', []), list):
+                url = result['url']
+                vulnerabilities = result['vulnerabilities']
+
+                for vuln_info in vulnerabilities:
+                    entry = {
+                        "URL": url,
+                        "Payload": vuln_info.get('payload', 'N/A'),
+                        "Server OS": vuln_info.get('server_os', 'N/A'),
+                        "DBMS": vuln_info.get('dbms', 'N/A'),
+                        "DBMS Version": vuln_info.get('dbms_version', 'N/A')
+                    }
+                    formatted_data.append(entry)
+    return formatted_data
+
 
 def process_techstack_results(techstack_results):
     formatted_data = []
@@ -118,6 +160,9 @@ def process_techstack_results(techstack_results):
             "Editor Version": "",
             "Language": "",
             "Language Version": "",
+            "Miscellaneous": "",
+            "PaaS": "",
+            "CDN": ""
         }
         if "Operating systems" in info:
             os_info = (
@@ -127,6 +172,7 @@ def process_techstack_results(techstack_results):
             )
             entry["Operating System"] = os_info.get("detail", "")
             entry["OS Version"] = os_info.get("version", "")
+
         if "Web servers" in info:
             ws_info = (
                 info["Web servers"][0]
@@ -135,6 +181,7 @@ def process_techstack_results(techstack_results):
             )
             entry["Web Server"] = ws_info.get("detail", "")
             entry["WB Version"] = ws_info.get("version", "")
+
         if "Editors" in info:
             editor_info = (
                 info["Editors"][0]
@@ -143,6 +190,7 @@ def process_techstack_results(techstack_results):
             )
             entry["Editor"] = editor_info.get("detail", "")
             entry["Editor Version"] = editor_info.get("version", "")
+
         if "Programming languages" in info:
             lang_info = (
                 info["Programming languages"][0]
@@ -152,8 +200,27 @@ def process_techstack_results(techstack_results):
             entry["Language"] = lang_info.get("detail", "")
             entry["Language Version"] = lang_info.get("version", "")
 
+        if "Miscellaneous" in info:
+            misc_info = ", ".join(
+                f"{item['detail']} (v{item['version']})" for item in info["Miscellaneous"]
+            ) if info["Miscellaneous"] else ""
+            entry["Miscellaneous"] = misc_info
+
+        if "PaaS" in info:
+            paas_info = ", ".join(
+                f"{item['detail']} (v{item['version']})" for item in info["PaaS"]
+            ) if info["PaaS"] else ""
+            entry["PaaS"] = paas_info
+
+        if "CDN" in info:
+            cdn_info = ", ".join(
+                f"{item['detail']} (v{item['version']})" for item in info["CDN"]
+            ) if info["CDN"] else ""
+            entry["CDN"] = cdn_info
+
         formatted_data.append(entry)
     return formatted_data
+
 
 
 def read_results():
@@ -163,23 +230,29 @@ def read_results():
     nmap_results = raw_results["nmap"]
     subdomain_results = raw_results["subdomains"]
     hosts_results = raw_results["hosts"]
+    sqli_results = raw_results["sqli"]
+    dir_results = raw_results["directories"]
     # flatten the techstack results based on the headers in the headingMappings
-    print("Techstack results:", techstack_results)
+    #print("Techstack results:", techstack_results)
 
     flattened_techstack_results = process_techstack_results(techstack_results)
     flattened_nmap_results = process_nmap_results(nmap_results)
     flattened_subdomains_results = process_subdomains_results(subdomain_results)
     flattened_hosts_results = process_hosts_results(hosts_results)
-    print()
-    print()
-    print("Processed techstack results:", flattened_techstack_results)
-    print("Proccessed Nmap results:", flattened_nmap_results)
-    print("Proccessed Subdomains results:", flattened_subdomains_results)
-    print()
+    flattened_sqli_results = process_sqli_results(sqli_results)
+    flattened_dir_results = process_directory_results(dir_results)
+    #print()
+    #print()
+    #print("Processed techstack results:", flattened_techstack_results)
+    #print("Proccessed Nmap results:", flattened_nmap_results)
+    #print("Proccessed Subdomains results:", flattened_subdomains_results)
+    #print()
     raw_results["techstack"] = flattened_techstack_results
     raw_results["nmap"] = flattened_nmap_results
     raw_results["subdomains"] = flattened_subdomains_results
     raw_results["hosts"] = flattened_hosts_results
+    raw_results["sqli"] = flattened_sqli_results
+    raw_results["directories"] = flattened_dir_results
     
 
     return raw_results
@@ -230,7 +303,7 @@ def run_scans(target_domain, phases):
 
     # Define task phases
     Phase_1 = [
-        ("Scan Common Ports", scan_common_ports, (target_domain,)),
+        ("Scan Common Ports", scan_common_ports, (target_domain, )),
         ("Find Subdomains", find_subdomains, (target_domain,)),
         (
             "Shodan Search",
@@ -251,9 +324,9 @@ def run_scans(target_domain, phases):
             read_subdomains_and_run_ffuf,
             (
                 target_domain,
-                "results/hosts",
-                "test/testwordlist.txt",
-                "results/directories",
+                "/mnt/d/flask-thesis/results/hosts",
+                "/mnt/d/flask-thesis/test/test.txt",
+                "/mnt/d/flask-thesis/results/directories",
             ),
         ),
         (
@@ -308,6 +381,7 @@ def execute_tasks(tasks):
 
 
 headingMappings = {
+    "directories" : ["URL , status , FUZZ"],
     "hosts": ["Domain", "Status Code"],
     "lfi": ["URL", "Status Code", "Payload"],
     "nmap": ["Host", "Open Ports", "Protocol", "Service"],
@@ -345,6 +419,12 @@ def index():
         scan_results = read_results()
 
     print("Scan results:", scan_results)
+
+    for key, content_list in scan_results.items():
+        if content_list and isinstance(content_list[0], dict):
+            scan_results[key] = content_list
+        else:
+            scan_results[key] = []
 
     return render_template(
         "index.html", scan_results=scan_results, headings=headingMappings

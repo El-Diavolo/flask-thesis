@@ -22,9 +22,9 @@ def read_all_json_results(scan_directories):
     for scan_dir in scan_directories:
         full_scan_path = os.path.join(base_path, scan_dir)
         scan_results = {}
-        print(f"Looking in base path: {base_path}")
+        #print(f"Looking in base path: {base_path}")
         if os.path.isdir(full_scan_path):
-            print(f"Found directory: {full_scan_path}")
+            #print(f"Found directory: {full_scan_path}")
             # Loop through all JSON files in the current scan directory
             for filename in os.listdir(full_scan_path):
                 if filename.endswith(".json"):
@@ -34,7 +34,7 @@ def read_all_json_results(scan_directories):
                         ) as json_file:
                             # Use the filename (without '.json') as the key for these results
                             result_key = filename[:-5]
-                            print("Result key:", result_key)
+                            #print("Result key:", result_key)
                             scan_results = json.load(json_file)
                             # # Use the filename (without '.json') as the key for these results
                             # result_key = filename[:-5]
@@ -47,10 +47,10 @@ def read_all_json_results(scan_directories):
 
         results[scan_dir] = scan_results
 
-    print()
-    print()
-    print("Results:", json.dumps(results, indent=2))
-    print()
-    print()
+    #print()
+    #print()
+    #print("Results:", json.dumps(results, indent=2))
+    #print()
+    #print()
 
     return results

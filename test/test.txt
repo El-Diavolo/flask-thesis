@@ -1,0 +1,16 @@
+cart
+admin
+categories
+test
+abdelaziz
+login
+user
+artist
+artists
+hello
+world
+Mod_Rewrite_Shop
+Templates
+vendor
+AJAX
+ajax

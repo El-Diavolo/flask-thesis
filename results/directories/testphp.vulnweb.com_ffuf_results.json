@@ -1,1 +1,34 @@
-{}
+{
+    "testphp.vulnweb.com": [
+        {
+            "url": "http://testphp.vulnweb.com/AJAX",
+            "status": 200,
+            "redirectlocation": "",
+            "FUZZ": "AJAX"
+        },
+        {
+            "url": "http://testphp.vulnweb.com/Templates",
+            "status": 200,
+            "redirectlocation": "",
+            "FUZZ": "Templates"
+        },
+        {
+            "url": "http://testphp.vulnweb.com/Mod_Rewrite_Shop",
+            "status": 200,
+            "redirectlocation": "",
+            "FUZZ": "Mod_Rewrite_Shop"
+        },
+        {
+            "url": "http://testphp.vulnweb.com/vendor",
+            "status": 200,
+            "redirectlocation": "",
+            "FUZZ": "vendor"
+        },
+        {
+            "url": "http://testphp.vulnweb.com/admin",
+            "status": 200,
+            "redirectlocation": "",
+            "FUZZ": "admin"
+        }
+    ]
+}
